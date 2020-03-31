@@ -5,12 +5,20 @@ export const getRandomMove = gameState => {
 };
 
 export const getBestMove = gameState => {
-  const depth = 5; // recommended 5
-
+  let depth = 7; // recommended 7
   const moves = getLegalMoves(gameState);
+  if (moves.length > 2) {
+    depth -= 1;
+  }
+  if (moves.length > 18) {
+    depth -= 1;
+  }
+  // depth = 1; // delete this
+  console.log(`Search depth: ${depth}`);
   const moveScores = moves.map(move => ({
     ...move,
-    score: minimax(getNextState(gameState, move), depth, -Infinity, +Infinity, 1)
+    score: minimax(getNextState(gameState, move), depth, -Infinity, +Infinity, -1)
+    // score: staticEval(getNextState(gameState, move))
   }));
 
   const bestMove = moveScores.reduce((bestMove, currentMove) =>
@@ -18,12 +26,15 @@ export const getBestMove = gameState => {
   );
 
   console.log(moveScores);
+  console.log(`Best Move: Square: ${bestMove.square} Tile: ${bestMove.tile} Score: ${bestMove.score}`);
   return bestMove;
 };
 
 const minimax = (gameState, depth, alpha, beta, player) => {
   // exit condition
   if (depth === 0 || gameState.victory !== false) {
+    // const ev = staticEval(gameState);
+    // console.log(`lastMove = {square: ${gameState.lastMove.square}, tile: ${gameState.lastMove.tile}} score = ${ev}`);
     return staticEval(gameState);
   }
 
@@ -149,6 +160,7 @@ export const staticEval = gameState => {
   ];
 
   // calculate the wieght of each square and the value of the large board
+  // let squareWeights = [0.3, 0.2, 0.3, 0.2, 0.4, 0.2, 0.3, 0.2, 0.3];
   let squareWeights = [3, 2, 3, 2, 4, 2, 3, 2, 3];
   // let squareWeights = [1, 1, 1, 1, 1, 1, 1, 1, 1];
   // let squareWeights = [0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -171,7 +183,7 @@ export const staticEval = gameState => {
 
   // weight given to large board.
   // the state of the large board should be valued more than the state of the small ones.
-  const largeBoardWeight = 12;
+  const largeBoardWeight = 60;
 
   // console.log(squareWeights, largeBoardWeight);
   // console.log(squareScores, largeBoardScore);
@@ -203,8 +215,8 @@ const evaluateLine = (square, line) => {
       result = 0;
       return false;
     } else {
-      result += square[tile]; // include how close a player is to winning a line
-      // result = square[tile]; // ignore how close a player is to winning a line
+      // result += square[tile]; // include how close a player is to winning a line
+      result = square[tile]; // ignore how close a player is to winning a line
       return true;
     }
   });
