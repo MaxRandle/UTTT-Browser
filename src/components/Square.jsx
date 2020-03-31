@@ -8,10 +8,6 @@ import { Paper } from "@material-ui/core";
 import Token from "./Token";
 
 const useStyles = makeStyles(theme => ({
-  tile: {
-    width: theme.tile.small.size,
-    height: theme.tile.small.size
-  },
   paper: {
     width: theme.tile.large.size,
     height: theme.tile.large.size

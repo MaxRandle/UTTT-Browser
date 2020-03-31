@@ -5,7 +5,7 @@ export const getRandomMove = gameState => {
 };
 
 export const getBestMove = gameState => {
-  let depth = 7; // recommended 7
+  let depth = 6; // recommended 6
   const moves = getLegalMoves(gameState);
   if (moves.length > 2) {
     depth -= 1;
