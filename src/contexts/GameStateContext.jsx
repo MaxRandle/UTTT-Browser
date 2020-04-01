@@ -32,10 +32,8 @@ const GameStateContextProvider = props => {
   };
 
   useEffect(() => {
-    // AI
     if (gameState.victory === false && gameState.turn === 1) {
-      
-      setTimeout(() => playMove(getBestMove(gameState)), 0);
+      setTimeout(() => playMove(getBestMove(gameState)), 0); // ai plays a move
     }
   }, [gameState]);
 

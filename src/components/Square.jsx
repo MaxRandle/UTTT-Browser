@@ -11,6 +11,10 @@ const useStyles = makeStyles(theme => ({
   paper: {
     width: theme.tile.large.size,
     height: theme.tile.large.size
+  },
+  lastMove: {
+    borderColor: "#00FF00",
+    borderWidth: "2px"
   }
 }));
 
@@ -22,7 +26,11 @@ const Square = props => {
   return (
     <>
       {gameState.localVictories[square] !== false && (
-        <Paper className={classes.paper}>
+        <Paper
+          className={classes.paper}
+          classes={{ outlined: classes.lastMove }}
+          variant={gameState.lastMove.square === square ? "outlined" : "elevation"}
+        >
           <Token token={gameState.localVictories[square]} />
         </Paper>
       )}

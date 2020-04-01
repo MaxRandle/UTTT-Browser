@@ -15,6 +15,10 @@ const useStyles = makeStyles(theme => ({
   },
   hover: {
     backgroundColor: theme.palette.secondary.light
+  },
+  lastMove: {
+    borderColor: "#00FF00",
+    borderWidth: "2px"
   }
 }));
 
@@ -48,10 +52,12 @@ const Tile = props => {
   return (
     <Paper
       className={`${classes.tile} ${isLegal() && classes.legal} ${isLegal() && hover && classes.hover}`}
+      classes={{ outlined: classes.lastMove }}
       {...otherProps}
       onClick={() => handleClick()}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      variant={gameState.lastMove.square === square && gameState.lastMove.tile === tile ? "outlined" : "elevation"}
     >
       <Token token={gameState.board[square][tile]} />
     </Paper>

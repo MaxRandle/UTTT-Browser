@@ -4,8 +4,10 @@ export const getRandomMove = gameState => {
   return randomMove;
 };
 
+export const getBoardEval = gameState => minimax(gameState, 6, -Infinity, +Infinity, gameState.turn);
+
 export const getBestMove = gameState => {
-  let depth = 6; // recommended 6
+  let depth = 7; // recommended 6
   const moves = getLegalMoves(gameState);
   if (moves.length > 2) {
     depth -= 1;
@@ -25,7 +27,7 @@ export const getBestMove = gameState => {
     currentMove.score > bestMove.score ? currentMove : bestMove
   );
 
-  console.log(moveScores);
+  // console.log(moveScores);
   console.log(`Best Move: Square: ${bestMove.square} Tile: ${bestMove.tile} Score: ${bestMove.score}`);
   return bestMove;
 };
